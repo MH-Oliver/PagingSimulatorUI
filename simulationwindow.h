@@ -2,6 +2,7 @@
 #define SIMULATIONWINDOW_H
 
 #include <QDialog>
+#include "PagingSimulator/src/Simulation.h"
 
 namespace Ui {
 class SimulationWindow;
