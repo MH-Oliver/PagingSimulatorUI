@@ -1,5 +1,8 @@
 #include "simulationwindow.h"
+#include "PagingSimulator/src/core/Algorithms/NRUAlgorithm.h"
 #include "ui_simulationwindow.h"
+
+#include "PagingSimulator/src/core/PagingAlgorithm.h"
 
 SimulationWindow::SimulationWindow(QWidget *parent)
     : QDialog(parent)
@@ -18,4 +21,10 @@ SimulationWindow::SimulationWindow(QWidget *parent)
 SimulationWindow::~SimulationWindow()
 {
     delete ui;
+}
+
+void SimulationWindow::setSimulationParams(int numFrames, int numPages, int tlbCapacity, QString algorithmName) {
+    PagingAlgorithm* pagingAlgorithm = new NRUAlgorithm();
+
+    //simulation = new Simulation(numFrames, )
 }

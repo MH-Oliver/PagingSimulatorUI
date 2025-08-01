@@ -21,6 +21,20 @@ FORMS += \
     configurationwindow.ui \
     simulationwindow.ui
 
+INCLUDEPATH += $$PWD/PagingSimulator/src
+SOURCES += \
+    $$PWD/PagingSimulator/src/des/Event.cpp \
+    $$PWD/PagingSimulator/src/des/EventQueue.cpp \
+    $$PWD/PagingSimulator/src/core/MemoryAccessEvent.cpp \
+    $$PWD/PagingSimulator/src/Simulation.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/FIFOAlgorithm.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/SecondChanceAlgorithm.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/LRUAlgorithm.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/NRUAlgorithm.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/NFUAlgorithm.cpp \
+    $$PWD/PagingSimulator/src/TraceLoader.cpp \
+    $$PWD/PagingSimulator/src/core/Algorithms/NFUNoAgingAlgorithm.cpp
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

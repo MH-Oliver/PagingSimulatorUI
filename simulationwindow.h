@@ -15,7 +15,7 @@ class SimulationWindow : public QDialog
 public:
     explicit SimulationWindow(QWidget *parent = nullptr);
     ~SimulationWindow();
-    void setSimulationParams();
+    void setSimulationParams(int numFrames, int numPages, int tlbCapacity, QString algorithmName);
 
 private:
     Ui::SimulationWindow *ui;
