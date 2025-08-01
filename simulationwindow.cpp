@@ -1,5 +1,10 @@
 #include "simulationwindow.h"
 #include "PagingSimulator/src/core/Algorithms/NRUAlgorithm.h"
+#include "core/Algorithms/FIFOAlgorithm.h"
+#include "core/Algorithms/LRUAlgorithm.h"
+#include "core/Algorithms/NFUAlgorithm.h"
+#include "core/Algorithms/NFUNoAgingAlgorithm.h"
+#include "core/Algorithms/SecondChanceAlgorithm.h"
 #include "ui_simulationwindow.h"
 
 #include "PagingSimulator/src/core/PagingAlgorithm.h"
@@ -24,7 +29,20 @@ SimulationWindow::~SimulationWindow()
 }
 
 void SimulationWindow::setSimulationParams(int numFrames, int numPages, int tlbCapacity, QString algorithmName) {
-    PagingAlgorithm* pagingAlgorithm = new NRUAlgorithm();
+    PagingAlgorithm* pagingAlgorithm;
+    if (algorithmName == "First In First Out") pagingAlgorithm = new FIFOAlgorithm();
+    else if (algorithmName == "Second Chance") pagingAlgorithm = new SecondChanceAlgorithm();
+    else if (algorithmName == "Least Recently Used") pagingAlgorithm = new LRUAlgorithm();
+    else if (algorithmName == "Not Frequently Used (mit Aging)") pagingAlgorithm = new NFUAlgorithm();
+    else if (algorithmName == "Not Frequently Used (ohne Aging)") pagingAlgorithm = new NFUNoAgingAlgorithm();
+    else pagingAlgorithm = new NRUAlgorithm();
 
-    //simulation = new Simulation(numFrames, )
+
+    simulation = new Simulation(numFrames, pagingAlgorithm, tlbCapacity);
+    Process process(1, numPages);
+    simulation->setCurrentProcess(&process);
+
+    ui->tableWidget_virtuellerSpeicher->setRowCount(numPages);
+    ui->tableWidget_physikalischerSpeicher->setRowCount(numFrames);
+    ui->tableWidget_tlb->setRowCount(tlbCapacity);
 }

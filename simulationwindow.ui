@@ -18,6 +18,21 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="3" column="3">
       <widget class="QTableWidget" name="tableWidget_virtuellerSpeicher">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>300</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       </property>
        <column>
         <property name="text">
          <string>Seite</string>
@@ -37,11 +52,23 @@
      </item>
      <item row="3" column="0" colspan="2">
       <widget class="QTableWidget" name="tableWidget_physikalischerSpeicher">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>300</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
        </property>
        <attribute name="verticalHeaderVisible">
-        <bool>false</bool>
+        <bool>true</bool>
        </attribute>
        <column>
         <property name="text">
@@ -183,6 +210,18 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </item>
      <item row="3" column="5">
       <widget class="QTableWidget" name="tableWidget_tlb">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <column>
         <property name="text">
          <string>Seitenrahmen</string>

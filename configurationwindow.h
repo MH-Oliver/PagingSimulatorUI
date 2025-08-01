@@ -20,7 +20,9 @@ public:
 
 private:
     Ui::ConfigurationWindow *ui;
-    //Ui::SimulationWindow *simuationWindow;
+    int countPages;
+    int countFrames;
+    int tlbSize;
 
     void loadConfigurations();
     void onStorageSizeChanges();
