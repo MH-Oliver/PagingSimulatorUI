@@ -19,6 +19,7 @@ public:
 
 private:
     Ui::SimulationWindow *ui;
+    Simulation* simulation;
 };
 
 #endif // SIMULATIONWINDOW_H
