@@ -19,6 +19,9 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="5" column="2" colspan="2">
        <widget class="QLineEdit" name="lineEdit_tlb">
+        <property name="text">
+         <string/>
+        </property>
         <property name="placeholderText">
          <string>Anzahl Einträge</string>
         </property>
@@ -98,12 +101,12 @@ Used</string>
         </item>
         <item>
          <property name="text">
-          <string>Not Frequently Used (mit Aging)</string>
+          <string>Not Frequently Used (mit Aging)</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Not Frequently Used (ohne Aging)</string>
+          <string>Not Frequently Used (ohne Aging)</string>
          </property>
         </item>
        </widget>
@@ -153,6 +156,9 @@ Used</string>
       </item>
       <item row="3" column="0" colspan="2">
        <widget class="QLineEdit" name="lineEdit_physicalStorage">
+        <property name="text">
+         <string/>
+        </property>
         <property name="placeholderText">
          <string>Bytes</string>
         </property>
@@ -160,6 +166,9 @@ Used</string>
       </item>
       <item row="3" column="2" colspan="2">
        <widget class="QLineEdit" name="lineEdit_virtualStorage">
+        <property name="text">
+         <string/>
+        </property>
         <property name="placeholderText">
          <string>Bytes</string>
         </property>

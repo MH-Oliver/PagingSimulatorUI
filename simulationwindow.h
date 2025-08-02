@@ -20,6 +20,9 @@ public:
 private:
     Ui::SimulationWindow *ui;
     Simulation* simulation;
+    EventQueue eventQueue;
+    void updateTables();
+    void runSimulation();
 };
 
 #endif // SIMULATIONWINDOW_H

@@ -8,6 +8,7 @@
 #include "ui_simulationwindow.h"
 
 #include "PagingSimulator/src/core/PagingAlgorithm.h"
+#include "TraceLoader.h"
 
 SimulationWindow::SimulationWindow(QWidget *parent)
     : QDialog(parent)
@@ -15,12 +16,7 @@ SimulationWindow::SimulationWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    /*ui->tableWidget_physikalischerSpeicher->setRowCount(10);
-    for (int i = 0; i < 10; i++) {
-        ui->tableWidget_physikalischerSpeicher->setItem(i,0, new QTableWidgetItem(QString("Qt")));
-        ui->tableWidget_physikalischerSpeicher->setItem(i,1, new QTableWidgetItem(QString("Qt1")));
-        ui->tableWidget_physikalischerSpeicher->setItem(i,2, new QTableWidgetItem(QString("Qt2")));
-    }*/
+    connect(ui->pushButton_runSimulation, &QPushButton::clicked, this, &SimulationWindow::runSimulation);
 }
 
 SimulationWindow::~SimulationWindow()
@@ -45,4 +41,36 @@ void SimulationWindow::setSimulationParams(int numFrames, int numPages, int tlbC
     ui->tableWidget_virtuellerSpeicher->setRowCount(numPages);
     ui->tableWidget_physikalischerSpeicher->setRowCount(numFrames);
     ui->tableWidget_tlb->setRowCount(tlbCapacity);
+
+    updateTables();
+}
+
+void SimulationWindow::runSimulation() {
+    //loadTrace("../../resources/trace.txt", eventQueue, simulation, 1.0, 1.0);
+
+    //eventQueue.run();
+    //simulation->printStatistics();
+    //updateTables();
+}
+
+void SimulationWindow::updateTables() {
+    auto mainMemory = simulation->getMain_memory();
+    for (int i = 0; i < mainMemory.size(); i++) {
+        ui->tableWidget_physikalischerSpeicher->setItem(i,0, new QTableWidgetItem(QString::number(i)));
+        ui->tableWidget_physikalischerSpeicher->setItem(i,1, new QTableWidgetItem(QString::number(mainMemory[i].pageId)));
+        ui->tableWidget_physikalischerSpeicher->setItem(i,2, new QTableWidgetItem(QVariant(mainMemory[i].referencedBit).toString()));
+    }
+
+    auto virtualStorage = simulation->getMMU().currentProcess->page_table.entries;
+    for (int i = 0; i < virtualStorage.size(); i++) {
+        ui->tableWidget_virtuellerSpeicher->setItem(i,0, new QTableWidgetItem(QString::number(i)));
+        ui->tableWidget_virtuellerSpeicher->setItem(i,1, new QTableWidgetItem(QString::number(virtualStorage[i].frameIndex)));
+        ui->tableWidget_virtuellerSpeicher->setItem(i,2, new QTableWidgetItem(QVariant(virtualStorage[i].isPresent).toString()));
+    }
+
+    auto tlbEntries = simulation->getMMU().tlb.entries;
+    for (int i = 0; i < tlbEntries.size(); i++) {
+        ui->tableWidget_tlb->setItem(i,1, new QTableWidgetItem(QString::number(tlbEntries[i].page_frame_index)));
+        ui->tableWidget_tlb->setItem(i,2, new QTableWidgetItem(QVariant(tlbEntries[i].page_index).toString()));
+    }
 }
