@@ -1,13 +1,21 @@
-QT       += core gui
+# ====================== PagingSimulator UI (qmake) ======================
+QT       += core gui widgets
+TEMPLATE  = app
+TARGET    = PagingSimulatorUI
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+# C++ / warnings
+CONFIG   += c++20 warn_on
+DEFINES  += QT_DEPRECATED_WARNINGS NOMINMAX
+win32-g++: QMAKE_CXXFLAGS += -Wall -Wextra -Wpedantic
+msvc:      QMAKE_CXXFLAGS += /W4 /permissive- /EHsc
 
-CONFIG += c++17
+# -------- Core submodule path (relative!) --------
+CORE_DIR  = $$clean_path($$PWD/PagingSimulator/src)
 
-# You can make your code fail to compile if it uses deprecated APIs.
-# In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+INCLUDEPATH += $$CORE_DIR
+DEPENDPATH  += $$CORE_DIR
 
+# -------- UI sources --------
 SOURCES += \
     main.cpp \
     configurationwindow.cpp \
@@ -21,21 +29,40 @@ FORMS += \
     configurationwindow.ui \
     simulationwindow.ui
 
-INCLUDEPATH += $$PWD/PagingSimulator/src
+# -------- Core sources (compiled into the UI app) --------
 SOURCES += \
-    $$PWD/PagingSimulator/src/des/Event.cpp \
-    $$PWD/PagingSimulator/src/des/EventQueue.cpp \
-    $$PWD/PagingSimulator/src/core/MemoryAccessEvent.cpp \
-    $$PWD/PagingSimulator/src/Simulation.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/FIFOAlgorithm.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/SecondChanceAlgorithm.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/LRUAlgorithm.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/NRUAlgorithm.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/NFUAlgorithm.cpp \
-    $$PWD/PagingSimulator/src/TraceLoader.cpp \
-    $$PWD/PagingSimulator/src/core/Algorithms/NFUNoAgingAlgorithm.cpp
+    $${CORE_DIR}/des/Event.cpp \
+    $${CORE_DIR}/des/EventQueue.cpp \
+    $${CORE_DIR}/core/MemoryAccessEvent.cpp \
+    $${CORE_DIR}/Simulation.cpp \
+    $${CORE_DIR}/TraceLoader.cpp \
+    $${CORE_DIR}/core/algorithms/FIFOAlgorithm.cpp \
+    $${CORE_DIR}/core/algorithms/SecondChanceAlgorithm.cpp \
+    $${CORE_DIR}/core/algorithms/LRUAlgorithm.cpp \
+    $${CORE_DIR}/core/algorithms/NRUAlgorithm.cpp \
+    $${CORE_DIR}/core/algorithms/NFUAlgorithm.cpp \
+    $${CORE_DIR}/core/algorithms/NFUNoAgingAlgorithm.cpp
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
+HEADERS += \
+    $${CORE_DIR}/Simulation.h \
+    $${CORE_DIR}/TraceLoader.h \
+    $${CORE_DIR}/core/CoreStructs.h \
+    $${CORE_DIR}/core/PagingAlgorithm.h \
+    $${CORE_DIR}/core/MemoryAccessEvent.h \
+    $${CORE_DIR}/des/Event.h \
+    $${CORE_DIR}/des/EventQueue.h \
+    $${CORE_DIR}/core/algorithms/FIFOAlgorithm.h \
+    $${CORE_DIR}/core/algorithms/SecondChanceAlgorithm.h \
+    $${CORE_DIR}/core/algorithms/LRUAlgorithm.h \
+    $${CORE_DIR}/core/algorithms/NRUAlgorithm.h \
+    $${CORE_DIR}/core/algorithms/NFUAlgorithm.h \
+    $${CORE_DIR}/core/algorithms/NFUNoAgingAlgorithm.h
+
+# -------- (Optional) copy sample trace file next to the built exe --------
+QMAKE_POST_LINK += $$quote($(MKDIR) "$$OUT_PWD/resources") && \
+                   $$quote($(COPY_FILE) "$$PWD/resources/trace.txt" "$$OUT_PWD/resources/trace.txt")
+
+# -------- Install target (optional) --------
+qnx:  target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
