@@ -180,9 +180,8 @@ void SimulationWindow::updateTables()
         const auto& tlbEntries = simulation->mmuView().tlb.entries;
         ui->tableWidget_tlb->setRowCount(static_cast<int>(tlbEntries.size()));
         for (int i = 0; i < static_cast<int>(tlbEntries.size()); ++i) {
-            ui->tableWidget_tlb->setItem(i, 0, new QTableWidgetItem(QString::number(i)));
-            ui->tableWidget_tlb->setItem(i, 1, new QTableWidgetItem(QString::number(tlbEntries[i].page_index)));
-            ui->tableWidget_tlb->setItem(i, 2, new QTableWidgetItem(QString::number(tlbEntries[i].frame_index)));
+            ui->tableWidget_tlb->setItem(i, 0, new QTableWidgetItem(QString::number(tlbEntries[i].page_index)));
+            ui->tableWidget_tlb->setItem(i, 1, new QTableWidgetItem(QString::number(tlbEntries[i].frame_index)));
         }
     }
 }
