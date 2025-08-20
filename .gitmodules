@@ -1,4 +1,4 @@
 [submodule "PagingSimulator"]
 	path = PagingSimulator
 	url = https://github.com/MH-Oliver/PagingSimulator
-	branch = main
+	branch = master
