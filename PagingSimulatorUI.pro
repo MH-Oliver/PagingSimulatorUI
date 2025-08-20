@@ -10,6 +10,7 @@ win32-g++: QMAKE_CXXFLAGS += -Wall -Wextra -Wpedantic
 msvc:      QMAKE_CXXFLAGS += /W4 /permissive- /EHsc
 
 # -------- Core submodule path (relative!) --------
+# If your core lives at PagingSimulator/src under the project root:
 CORE_DIR  = $$clean_path($$PWD/PagingSimulator/src)
 
 INCLUDEPATH += $$CORE_DIR
@@ -59,12 +60,17 @@ HEADERS += \
     $${CORE_DIR}/core/algorithms/NFUNoAgingAlgorithm.h
 
 # -------- (Optional) copy sample trace file next to the built exe --------
-QMAKE_POST_LINK += $$quote($(MKDIR) "$$OUT_PWD/resources") && \
-                   $$quote($(COPY_FILE) "$$PWD/resources/trace.txt" "$$OUT_PWD/resources/trace.txt")
+win32 {
+    QMAKE_POST_LINK = \
+        if not exist \"$(OUT_PWD)\\resources\" mkdir \"$(OUT_PWD)\\resources\" $$escape_expand(\n) \
+        copy /Y \"$(PWD)\\resources\\trace.txt\" \"$(OUT_PWD)\\resources\\trace.txt\"
+} else:unix {
+    QMAKE_POST_LINK = \
+        mkdir -p \"$(OUT_PWD)/resources\"; \
+        cp \"$(PWD)/resources/trace.txt\" \"$(OUT_PWD)/resources/trace.txt\"
+}
 
 # -------- Install target (optional) --------
 qnx:  target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-

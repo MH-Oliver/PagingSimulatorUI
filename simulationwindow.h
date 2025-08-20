@@ -1,4 +1,3 @@
-// simulationwindow.h
 /**
  * @file simulationwindow.h
  * @brief Simulation dialog that runs the trace and visualizes state.
@@ -17,10 +16,10 @@ namespace Ui { class SimulationWindow; }
 
 /**
  * @class SimulationWindow
- * @brief Dialog to run the simulation step-by-step and show current state.
+ * @brief Qt dialog to run the paging simulation step-by-step and visualize state.
  *
- * It renders three tables (physical memory, page table, TLB) as snapshots
- * of the current state, and keeps textual history in a log panel.
+ * This window renders three tables (physical memory, page table, TLB) as snapshots
+ * of the current state, and maintains a textual log panel with time-stamped lines.
  */
 class SimulationWindow : public QDialog
 {
@@ -31,30 +30,38 @@ public:
      * @param parent Parent widget.
      */
     explicit SimulationWindow(QWidget *parent = nullptr);
+
+    /**
+     * @brief Destructor.
+     */
     ~SimulationWindow() override;
 
     /**
      * @brief Provide initial parameters and create the simulation.
-     * @param numFrames Number of physical frames.
-     * @param numPages  Number of virtual pages for the process.
-     * @param tlbCapacity TLB capacity.
-     * @param algorithmName Replacement algorithm name from combo box.
+     * @param numFrames    Number of physical frames.
+     * @param numPages     Number of virtual pages for the process.
+     * @param tlbCapacity  TLB capacity.
+     * @param algorithmName Replacement algorithm name as chosen in the combo box.
      */
     void setSimulationParams(int numFrames, int numPages, int tlbCapacity, QString algorithmName);
 
 private:
     Ui::SimulationWindow *ui{nullptr};
 
-    // Core state
-    std::unique_ptr<Simulation> simulation;
-    std::unique_ptr<Process>    process;
-    EventQueue                  eventQueue;
+    // Core simulation state
+    std::unique_ptr<Simulation> simulation;  ///< Simulation engine.
+    std::unique_ptr<Process>    process;     ///< Current process with page table.
+    EventQueue                  eventQueue;  ///< Queue of scheduled memory accesses.
 
     // Trace state
-    QString tracePath;
+    QString tracePath;   ///< Path to loaded trace file.
     bool    traceLoaded{false};
 
-    // UI helpers
+    // Remember chosen algorithm (for logging header line).
+    QString algorithmName_;
+
+    // --- UI helpers ---
+
     /**
      * @brief Refresh all three tables from the current simulation state.
      */
@@ -72,13 +79,17 @@ private:
     void appendLog(const QString& line);
 
     /**
-     * @brief Append the final summary (same content as the stats label) to the log.
+     * @brief Append the final statistics summary to the log.
      */
     void logStatsToHistory();
-
+    /**
+     * @brief Load the text file and show it in the trace preview box.
+    * @param path Filesystem path to the trace file.
+    */
+    void updateTracePreview(const QString& path);
 private slots:
     /**
-     * @brief Load a trace file and prepare the event queue.
+     * @brief Choose and load a trace file, prepare the event queue.
      */
     void runSimulation();
 
