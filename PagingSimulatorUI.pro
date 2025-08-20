@@ -66,3 +66,5 @@ QMAKE_POST_LINK += $$quote($(MKDIR) "$$OUT_PWD/resources") && \
 qnx:  target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
