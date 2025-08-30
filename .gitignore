@@ -72,3 +72,24 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+@'
+# Qt & clangd build artifacts
+build/
+**/.qtc_clangd/
+compile_commands.json
+# Qt Creator user-specific
+*.user
+*.pro.user
+*.pro.user.*
+# Common build outputs
+debug/
+release/
+*.obj
+*.o
+*.ilk
+*.pdb
+moc_*/
+ui_*.h
+Makefile*
+'@ | Out-File -Encoding UTF8 -Append .gitignore
+
