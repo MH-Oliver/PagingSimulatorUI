@@ -32,9 +32,7 @@ FORMS += \
 
 # -------- Core sources (compiled into the UI app) --------
 SOURCES += \
-    $${CORE_DIR}/des/Event.cpp \
     $${CORE_DIR}/des/EventQueue.cpp \
-    $${CORE_DIR}/core/MemoryAccessEvent.cpp \
     $${CORE_DIR}/Simulation.cpp \
     $${CORE_DIR}/TraceLoader.cpp \
     $${CORE_DIR}/core/algorithms/FIFOAlgorithm.cpp \
